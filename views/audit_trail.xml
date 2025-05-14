@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_audit_trail_tree" model="ir.ui.view">
+        <field name="name">audit.trail.tree</field>
+        <field name="model">audit.trail</field>
+        <field name="arch" type="xml">
+            <tree string="Audit Trail">
+                <field name="name"/>
+                <field name="model"/>
+                <field name="record_id"/>
+                <field name="record_name"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_audit_trail_form" model="ir.ui.view">
+        <field name="name">audit.trail.form</field>
+        <field name="model">audit.trail</field>
+        <field name="arch" type="xml">
+            <form string="Audit Trail">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="model"/>
+                        <field name="record_id"/>
+                        <field name="record_name"/>
+                        <field name="user_id"/>
+                        <field name="action"/>
+                        <field name="date"/>
+                        <field name="changes"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_for_audit_trail" model="ir.actions.act_window">
+        <field name="name">Audit Trail</field>
+        <field name="res_model">audit.trail</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+            id="menu_audit_trail"
+            name="Audit Trail"
+            sequence="1"
+            action="action_for_audit_trail"
+            web_icon="audit_trail,static/description/icon.png"
+            groups="logic_base_17.base_admin"
+    />
+</odoo>
