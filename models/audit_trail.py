@@ -4,6 +4,8 @@ from odoo import models, fields, api
 class AuditTrail(models.Model):
     _name = 'audit.trail'
     _description = 'Audit Trail'
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _order = 'id desc'
 
     name = fields.Char(string='Name')
     model = fields.Char(string='Model')
