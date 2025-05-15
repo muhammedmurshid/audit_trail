@@ -10,11 +10,12 @@
     'category': 'Specific Category',
     'license': 'LGPL-3',
     'depends': [
-        'base', 'custom_leads','logic_payments_17', 'logic_base_17' # List of module dependencies
+        'base', 'custom_leads','logic_payments_17', 'logic_base_17','refund_17', 'seminar_17','reports','fee_collection_17','hr' # List of module dependencies
 
         # Add other module dependencies here
     ],
     'data': [
+        'security/security_group.xml',
         'security/ir.model.access.csv',
         'views/audit_trail.xml',
     ],

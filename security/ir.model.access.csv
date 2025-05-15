@@ -1,2 +1,2 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_audit_trail,audit.trail,model_audit_trail,,1,1,1,1
+access_audit_trail,audit.trail,model_audit_trail,audit_trail.group_audit_manager,1,1,1,1

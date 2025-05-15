@@ -5,13 +5,17 @@
         <field name="model">audit.trail</field>
         <field name="arch" type="xml">
             <tree string="Audit Trail">
-                <field name="name"/>
+                <field name="date"/>
+                <field name="action"/>
+                <field name="user_id"/>
+                <!--                <field name="name"/>-->
                 <field name="model"/>
+                <field name="description"/>
                 <field name="record_id"/>
                 <field name="record_name"/>
-                <field name="user_id"/>
-                <field name="action"/>
-                <field name="date"/>
+                <!--                <field name="changes_short"/>-->
+                <field name="changes_old"/>
+                <field name="changes_new"/>
             </tree>
         </field>
     </record>
@@ -23,14 +27,17 @@
             <form string="Audit Trail">
                 <sheet>
                     <group>
+                        <field name="date"/>
+                        <field name="action"/>
+                        <field name="user_id"/>
                         <field name="name"/>
                         <field name="model"/>
+                        <field name="description"/>
                         <field name="record_id"/>
                         <field name="record_name"/>
-                        <field name="user_id"/>
-                        <field name="action"/>
-                        <field name="date"/>
-                        <field name="changes"/>
+                        <!--                        <field name="changes"/>-->
+                        <field name="old_value"/>
+                        <field name="changed_value"/>
                     </group>
                 </sheet>
             </form>
