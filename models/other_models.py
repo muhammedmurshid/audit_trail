@@ -848,7 +848,6 @@ class SeminarLeadsAudit(models.Model):
 
     def write(self, vals):
         for record in self:
-            # Capture old values before the write
             old_vals = {
                 field: record[field]
                 for field in vals.keys()
@@ -915,6 +914,7 @@ class EmployeeAudit(models.Model):
         return record
 
     def write(self, vals):
+        result = True  # Default value in case self is empty
         for record in self:
             # Capture old values before the write
             old_vals = {
@@ -923,6 +923,7 @@ class EmployeeAudit(models.Model):
                 if field in record._fields
             }
             print(old_vals, 'old vals')
+
             result = super(EmployeeAudit, record).write(vals)
 
             # Capture new values after the write
@@ -933,7 +934,6 @@ class EmployeeAudit(models.Model):
             }
             print(new_vals, 'new vals')
 
-            # Create audit trail for each record individually
             self.env['audit.trail'].create({
                 'name': 'Write Record',
                 'model': record._name,
@@ -948,6 +948,40 @@ class EmployeeAudit(models.Model):
             })
 
         return result
+
+    # def write(self, vals):
+    #     for record in self:
+    #         # Capture old values before the write
+    #         old_vals = {
+    #             field: record[field]
+    #             for field in vals.keys()
+    #             if field in record._fields
+    #         }
+    #         print(old_vals, 'old vals')
+    #         result = super(EmployeeAudit, record).write(vals)
+    #
+    #         # Capture new values after the write
+    #         new_vals = {
+    #             field: record[field]
+    #             for field in vals.keys()
+    #             if field in record._fields
+    #         }
+    #         print(new_vals, 'new vals')
+    #
+    #         self.env['audit.trail'].create({
+    #             'name': 'Write Record',
+    #             'model': record._name,
+    #             'record_id': record.id,
+    #             'user_id': self.env.user.id,
+    #             'action': 'write',
+    #             'old_value': old_vals,
+    #             'changed_value': new_vals,
+    #             'record_name': record.name,
+    #             'description': self._description,
+    #             'changes': f"Old: {old_vals}\nNew: {new_vals}",
+    #         })
+    #
+    #     return result
 
     def unlink(self):
         self.env['audit.trail'].create({
