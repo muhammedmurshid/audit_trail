@@ -7,6 +7,7 @@ class ResPartner(models.Model):
     def create(self, vals):
         print('create method')
         record = super(ResPartner, self).create(vals)
+        record_name = vals.get('name', '')
         self.env['audit.trail'].create({
             'name': 'Create Record',
             'model': self._name,
@@ -14,7 +15,7 @@ class ResPartner(models.Model):
             'user_id': self.env.user.id,
             'action': 'create',
             'description': self._description,
-            'record_name': self.name,
+            'record_name': record_name,
             'changes': str(vals),
         })
         return record
