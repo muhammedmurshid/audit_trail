@@ -8,7 +8,7 @@ class ResPartner(models.Model):
         print('create method')
         record = super(ResPartner, self).create(vals)
         record_name = vals.get('name', '')
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Create Record',
             'model': self._name,
             'record_id': record.id,
@@ -40,7 +40,7 @@ class ResPartner(models.Model):
             print(new_vals, 'new vals')
 
             # Create audit trail for each record individually
-            self.env['audit.trail'].create({
+            self.env['audit.trail'].sudo().create({
                 'name': 'Write Record',
                 'model': record._name,
                 'record_id': record.id,
@@ -58,7 +58,7 @@ class ResPartner(models.Model):
     def unlink(self):
         for record in self:
             if self.env.user not in self.env['audit.trail'].exclude_users:
-                self.env['audit.trail'].create({
+                self.env['audit.trail'].sudo().create({
                     'name': 'Delete Record',
                     'model': self._name,
                     'record_id': record.id,
@@ -80,7 +80,7 @@ class LeadsLogic(models.Model):
         print('create method')
         record = super(LeadsLogic, self).create(vals)
         record_name = vals.get('name', '')
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Create Record',
             'model': self._name,
             'record_id': record.id,
@@ -112,7 +112,7 @@ class LeadsLogic(models.Model):
             print(new_vals, 'new vals')
 
             # Create audit trail for each record individually
-            self.env['audit.trail'].create({
+            self.env['audit.trail'].sudo().create({
                 'name': 'Write Record',
                 'model': record._name,
                 'record_id': record.id,
@@ -130,7 +130,7 @@ class LeadsLogic(models.Model):
     def unlink(self):
         for record in self:
             if self.env.user not in self.env['audit.trail'].exclude_users:
-                self.env['audit.trail'].create({
+                self.env['audit.trail'].sudo().create({
                     'name': 'Delete Record',
                     'model': self._name,
                     'record_id': record.id,
@@ -152,7 +152,7 @@ class PaymentRequest(models.Model):
         print('create method')
         record = super(PaymentRequest, self).create(vals)
         record_name = vals.get('name', '')
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Create Record',
             'model': self._name,
             'record_id': record.id,
@@ -184,7 +184,7 @@ class PaymentRequest(models.Model):
             print(new_vals, 'new vals')
 
             # Create audit trail for each record individually
-            self.env['audit.trail'].create({
+            self.env['audit.trail'].sudo().create({
                 'name': 'Write Record',
                 'model': record._name,
                 'record_id': record.id,
@@ -200,7 +200,7 @@ class PaymentRequest(models.Model):
         return result
 
     def unlink(self):
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Delete Record',
             'model': self._name,
             'record_id': self.id,
@@ -220,7 +220,7 @@ class StudentsRefund(models.Model):
         print('create method')
         record = super(StudentsRefund, self).create(vals)
         record_name = vals.get('student_name', '')
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Create Record',
             'model': self._name,
             'record_id': record.id,
@@ -252,7 +252,7 @@ class StudentsRefund(models.Model):
             print(new_vals, 'new vals')
 
             # Create audit trail for each record individually
-            self.env['audit.trail'].create({
+            self.env['audit.trail'].sudo().create({
                 'name': 'Write Record',
                 'model': record._name,
                 'record_id': record.id,
@@ -268,7 +268,7 @@ class StudentsRefund(models.Model):
         return result
 
     def unlink(self):
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Delete Record',
             'model': self._name,
             'record_id': self.id,
@@ -288,7 +288,7 @@ class FeeQuickPay(models.Model):
         print('create method')
         record = super(FeeQuickPay, self).create(vals)
         record_name = vals.get('name', '')
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Create Record',
             'model': self._name,
             'record_id': record.id,
@@ -320,7 +320,7 @@ class FeeQuickPay(models.Model):
             print(new_vals, 'new vals')
 
             # Create audit trail for each record individually
-            self.env['audit.trail'].create({
+            self.env['audit.trail'].sudo().create({
                 'name': 'Write Record',
                 'model': record._name,
                 'record_id': record.id,
@@ -336,7 +336,7 @@ class FeeQuickPay(models.Model):
         return result
 
     def unlink(self):
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Delete Record',
             'model': self._name,
             'record_id': self.id,
@@ -356,7 +356,7 @@ class BaseBatches(models.Model):
         print('create method')
         record = super(BaseBatches, self).create(vals)
         record_name = vals.get('name', '')
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Create Record',
             'model': self._name,
             'record_id': record.id,
@@ -388,7 +388,7 @@ class BaseBatches(models.Model):
             print(new_vals, 'new vals')
 
             # Create audit trail for each record individually
-            self.env['audit.trail'].create({
+            self.env['audit.trail'].sudo().create({
                 'name': 'Write Record',
                 'model': record._name,
                 'record_id': record.id,
@@ -404,7 +404,7 @@ class BaseBatches(models.Model):
         return result
 
     def unlink(self):
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Delete Record',
             'model': self._name,
             'record_id': self.id,
@@ -424,7 +424,7 @@ class OpCourse(models.Model):
         print('create method')
         record = super(OpCourse, self).create(vals)
         record_name = vals.get('name', '')
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Create Record',
             'model': self._name,
             'record_id': record.id,
@@ -456,7 +456,7 @@ class OpCourse(models.Model):
             print(new_vals, 'new vals')
 
             # Create audit trail for each record individually
-            self.env['audit.trail'].create({
+            self.env['audit.trail'].sudo().create({
                 'name': 'Write Record',
                 'model': record._name,
                 'record_id': record.id,
@@ -472,7 +472,7 @@ class OpCourse(models.Model):
         return result
 
     def unlink(self):
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Delete Record',
             'model': self._name,
             'record_id': self.id,
@@ -492,7 +492,7 @@ class OpDepartment(models.Model):
         print('create method')
         record = super(OpDepartment, self).create(vals)
         record_name = vals.get('name', '')
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Create Record',
             'model': self._name,
             'description': self._description,
@@ -525,7 +525,7 @@ class OpDepartment(models.Model):
             print(new_vals, 'new vals')
 
             # Create audit trail for each record individually
-            self.env['audit.trail'].create({
+            self.env['audit.trail'].sudo().create({
                 'name': 'Write Record',
                 'model': record._name,
                 'record_id': record.id,
@@ -541,7 +541,7 @@ class OpDepartment(models.Model):
         return result
 
     def unlink(self):
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Delete Record',
             'model': self._name,
             'record_id': self.id,
@@ -561,7 +561,7 @@ class OpBranches(models.Model):
         print('create method')
         record = super(OpBranches, self).create(vals)
         record_name = vals.get('name', '')
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Create Record',
             'model': self._name,
             'record_id': record.id,
@@ -593,7 +593,7 @@ class OpBranches(models.Model):
             print(new_vals, 'new vals')
 
             # Create audit trail for each record individually
-            self.env['audit.trail'].create({
+            self.env['audit.trail'].sudo().create({
                 'name': 'Write Record',
                 'model': record._name,
                 'record_id': record.id,
@@ -609,7 +609,7 @@ class OpBranches(models.Model):
         return result
 
     def unlink(self):
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Delete Record',
             'model': self._name,
             'record_id': self.id,
@@ -629,7 +629,7 @@ class RefundPayment(models.Model):
         print('create method')
         record = super(RefundPayment, self).create(vals)
         record_name = vals.get('name', '')
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Create Record',
             'model': self._name,
             'record_id': record.id,
@@ -661,7 +661,7 @@ class RefundPayment(models.Model):
             print(new_vals, 'new vals')
 
             # Create audit trail for each record individually
-            self.env['audit.trail'].create({
+            self.env['audit.trail'].sudo().create({
                 'name': 'Write Record',
                 'model': record._name,
                 'record_id': record.id,
@@ -677,7 +677,7 @@ class RefundPayment(models.Model):
         return result
 
     def unlink(self):
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Delete Record',
             'model': self._name,
             'record_id': self.id,
@@ -697,7 +697,7 @@ class InvoiceReports(models.Model):
         print('create method')
         record = super(InvoiceReports, self).create(vals)
         record_name = vals.get('name', '')
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Create Record',
             'model': self._name,
             'record_id': record.id,
@@ -729,7 +729,7 @@ class InvoiceReports(models.Model):
             print(new_vals, 'new vals')
 
             # Create audit trail for each record individually
-            self.env['audit.trail'].create({
+            self.env['audit.trail'].sudo().create({
                 'name': 'Write Record',
                 'model': record._name,
                 'record_id': record.id,
@@ -745,7 +745,7 @@ class InvoiceReports(models.Model):
         return result
 
     def unlink(self):
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Delete Record',
             'model': self._name,
             'record_id': self.id,
@@ -765,7 +765,7 @@ class ReceiptReports(models.Model):
         print('create method')
         record = super(ReceiptReports, self).create(vals)
         record_name = vals.get('name', '')
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Create Record',
             'model': self._name,
             'record_id': record.id,
@@ -797,7 +797,7 @@ class ReceiptReports(models.Model):
             print(new_vals, 'new vals')
 
             # Create audit trail for each record individually
-            self.env['audit.trail'].create({
+            self.env['audit.trail'].sudo().create({
                 'name': 'Write Record',
                 'model': record._name,
                 'record_id': record.id,
@@ -813,7 +813,7 @@ class ReceiptReports(models.Model):
         return result
 
     def unlink(self):
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Delete Record',
             'model': self._name,
             'record_id': self.id,
@@ -833,7 +833,7 @@ class SeminarLeadsAudit(models.Model):
         print('create method')
         record = super(SeminarLeadsAudit, self).create(vals)
         record_name = vals.get('institute_name', '')
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Create Record',
             'model': self._name,
             'record_id': record.id,
@@ -865,7 +865,7 @@ class SeminarLeadsAudit(models.Model):
             print(new_vals, 'new vals')
 
             # Create audit trail for each record individually
-            self.env['audit.trail'].create({
+            self.env['audit.trail'].sudo().create({
                 'name': 'Write Record',
                 'model': record._name,
                 'record_id': record.id,
@@ -881,7 +881,7 @@ class SeminarLeadsAudit(models.Model):
         return result
 
     def unlink(self):
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Delete Record',
             'model': self._name,
             'record_id': self.id,
@@ -901,7 +901,7 @@ class EmployeeAudit(models.Model):
         print('create method')
         record = super(EmployeeAudit, self).create(vals)
         record_name = vals.get('name', '')
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Create Record',
             'model': self._name,
             'record_id': record.id,
@@ -934,7 +934,7 @@ class EmployeeAudit(models.Model):
             }
             print(new_vals, 'new vals')
 
-            self.env['audit.trail'].create({
+            self.env['audit.trail'].sudo().create({
                 'name': 'Write Record',
                 'model': record._name,
                 'record_id': record.id,
@@ -984,7 +984,7 @@ class EmployeeAudit(models.Model):
     #     return result
 
     def unlink(self):
-        self.env['audit.trail'].create({
+        self.env['audit.trail'].sudo().create({
             'name': 'Delete Record',
             'model': self._name,
             'record_id': self.id,
