@@ -29,16 +29,21 @@ class ResPartner(models.Model):
                 if field in record._fields
             }
             print(old_vals, 'old vals')
-            result = super(ResPartner, record).write(vals)
 
+            # You can’t write record-by-record with super — it must be once on self
+            # So we break the audit logic into before and after
+            # But the write must be done on the entire recordset outside the loop
+
+        result = super(ResPartner, self).write(vals)
+
+        for record in self:
             # Capture new values after the write
             new_vals = {
                 field: record[field]
                 for field in vals.keys()
                 if field in record._fields
             }
-            print(new_vals, 'new vals')
-
+           
             # Create audit trail for each record individually
             self.env['audit.trail'].sudo().create({
                 'name': 'Write Record',
