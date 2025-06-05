@@ -1,152 +1,152 @@
 from odoo import fields,api,models,_
 
-class ResPartner(models.Model):
-    _inherit = 'res.partner'
-
-    @api.model
-    def create(self, vals):
-        print('create method')
-        record = super(ResPartner, self).create(vals)
-        record_name = vals.get('name', '')
-        self.env['audit.trail'].sudo().create({
-            'name': 'Create Record',
-            'model': self._name,
-            'record_id': record.id,
-            'user_id': self.env.user.id,
-            'action': 'create',
-            'description': self._description,
-            'record_name': record_name,
-            'changes': str(vals),
-        })
-        return record
-
-    def write(self, vals):
-        for record in self:
-            # Capture old values before the write
-            old_vals = {
-                field: record[field]
-                for field in vals.keys()
-                if field in record._fields
-            }
-            print(old_vals, 'old vals')
-
-            # You can’t write record-by-record with super — it must be once on self
-            # So we break the audit logic into before and after
-            # But the write must be done on the entire recordset outside the loop
-
-        result = super(ResPartner, self).write(vals)
-
-        for record in self:
-            # Capture new values after the write
-            new_vals = {
-                field: record[field]
-                for field in vals.keys()
-                if field in record._fields
-            }
-
-            # Create audit trail for each record individually
-            self.env['audit.trail'].sudo().create({
-                'name': 'Write Record',
-                'model': record._name,
-                'record_id': record.id,
-                'user_id': self.env.user.id,
-                'action': 'write',
-                'description': self._description,
-                'record_name': record.name,
-                'old_value': old_vals,
-                'changed_value': new_vals,
-                'changes': f"Old: {old_vals}\nNew: {new_vals}",
-            })
-
-        return result
-
-    def unlink(self):
-        for record in self:
-            if self.env.user not in self.env['audit.trail'].exclude_users:
-                self.env['audit.trail'].sudo().create({
-                    'name': 'Delete Record',
-                    'model': self._name,
-                    'record_id': record.id,
-                    'user_id': self.env.user.id,
-                    'action': 'unlink',
-                    'record_name': self.name,
-                    'description': self._description,
-                    'changes': 'Record deleted',
-                })
-
-        return super(ResPartner, self).unlink()
-
-
-class LeadsLogic(models.Model):
-    _inherit = 'leads.logic'
-
-    @api.model
-    def create(self, vals):
-        print('create method')
-        record = super(LeadsLogic, self).create(vals)
-        record_name = vals.get('name', '')
-        self.env['audit.trail'].sudo().create({
-            'name': 'Create Record',
-            'model': self._name,
-            'record_id': record.id,
-            'record_name': record_name,
-            'description': self._description,
-            'user_id': self.env.user.id,
-            'action': 'create',
-            'changes': str(vals),
-        })
-        return record
-
-    def write(self, vals):
-        for record in self:
-            # Capture old values before the write
-            old_vals = {
-                field: record[field]
-                for field in vals.keys()
-                if field in record._fields
-            }
-            print(old_vals, 'old vals')
-            result = super(LeadsLogic, record).write(vals)
-
-            # Capture new values after the write
-            new_vals = {
-                field: record[field]
-                for field in vals.keys()
-                if field in record._fields
-            }
-            print(new_vals, 'new vals')
-
-            # Create audit trail for each record individually
-            self.env['audit.trail'].sudo().create({
-                'name': 'Write Record',
-                'model': record._name,
-                'record_id': record.id,
-                'user_id': self.env.user.id,
-                'old_value': old_vals,
-                'changed_value': new_vals,
-                'action': 'write',
-                'description': self._description,
-                'record_name': record.name,
-                'changes': f"Old: {old_vals}\nNew: {new_vals}",
-            })
-
-        return result
-
-    def unlink(self):
-        for record in self:
-            if self.env.user not in self.env['audit.trail'].exclude_users:
-                self.env['audit.trail'].sudo().create({
-                    'name': 'Delete Record',
-                    'model': self._name,
-                    'record_id': record.id,
-                    'user_id': self.env.user.id,
-                    'action': 'unlink',
-                    'description': self._description,
-                    'record_name': self.name,
-                    'changes': 'Record deleted',
-                })
-
-        return super(LeadsLogic, self).unlink()
+# class ResPartner(models.Model):
+#     _inherit = 'res.partner'
+#
+#     @api.model
+#     def create(self, vals):
+#         print('create method')
+#         record = super(ResPartner, self).create(vals)
+#         record_name = vals.get('name', '')
+#         self.env['audit.trail'].sudo().create({
+#             'name': 'Create Record',
+#             'model': self._name,
+#             'record_id': record.id,
+#             'user_id': self.env.user.id,
+#             'action': 'create',
+#             'description': self._description,
+#             'record_name': record_name,
+#             'changes': str(vals),
+#         })
+#         return record
+#
+#     def write(self, vals):
+#         for record in self:
+#             # Capture old values before the write
+#             old_vals = {
+#                 field: record[field]
+#                 for field in vals.keys()
+#                 if field in record._fields
+#             }
+#             print(old_vals, 'old vals')
+#
+#             # You can’t write record-by-record with super — it must be once on self
+#             # So we break the audit logic into before and after
+#             # But the write must be done on the entire recordset outside the loop
+#
+#         result = super(ResPartner, self).write(vals)
+#
+#         for record in self:
+#             # Capture new values after the write
+#             new_vals = {
+#                 field: record[field]
+#                 for field in vals.keys()
+#                 if field in record._fields
+#             }
+#
+#             # Create audit trail for each record individually
+#             self.env['audit.trail'].sudo().create({
+#                 'name': 'Write Record',
+#                 'model': record._name,
+#                 'record_id': record.id,
+#                 'user_id': self.env.user.id,
+#                 'action': 'write',
+#                 'description': self._description,
+#                 'record_name': record.name,
+#                 'old_value': old_vals,
+#                 'changed_value': new_vals,
+#                 'changes': f"Old: {old_vals}\nNew: {new_vals}",
+#             })
+#
+#         return result
+#
+#     def unlink(self):
+#         for record in self:
+#             if self.env.user not in self.env['audit.trail'].exclude_users:
+#                 self.env['audit.trail'].sudo().create({
+#                     'name': 'Delete Record',
+#                     'model': self._name,
+#                     'record_id': record.id,
+#                     'user_id': self.env.user.id,
+#                     'action': 'unlink',
+#                     'record_name': self.name,
+#                     'description': self._description,
+#                     'changes': 'Record deleted',
+#                 })
+#
+#         return super(ResPartner, self).unlink()
+#
+#
+# class LeadsLogic(models.Model):
+#     _inherit = 'leads.logic'
+#
+#     @api.model
+#     def create(self, vals):
+#         print('create method')
+#         record = super(LeadsLogic, self).create(vals)
+#         record_name = vals.get('name', '')
+#         self.env['audit.trail'].sudo().create({
+#             'name': 'Create Record',
+#             'model': self._name,
+#             'record_id': record.id,
+#             'record_name': record_name,
+#             'description': self._description,
+#             'user_id': self.env.user.id,
+#             'action': 'create',
+#             'changes': str(vals),
+#         })
+#         return record
+#
+#     def write(self, vals):
+#         for record in self:
+#             # Capture old values before the write
+#             old_vals = {
+#                 field: record[field]
+#                 for field in vals.keys()
+#                 if field in record._fields
+#             }
+#             print(old_vals, 'old vals')
+#             result = super(LeadsLogic, record).write(vals)
+#
+#             # Capture new values after the write
+#             new_vals = {
+#                 field: record[field]
+#                 for field in vals.keys()
+#                 if field in record._fields
+#             }
+#             print(new_vals, 'new vals')
+#
+#             # Create audit trail for each record individually
+#             self.env['audit.trail'].sudo().create({
+#                 'name': 'Write Record',
+#                 'model': record._name,
+#                 'record_id': record.id,
+#                 'user_id': self.env.user.id,
+#                 'old_value': old_vals,
+#                 'changed_value': new_vals,
+#                 'action': 'write',
+#                 'description': self._description,
+#                 'record_name': record.name,
+#                 'changes': f"Old: {old_vals}\nNew: {new_vals}",
+#             })
+#
+#         return result
+#
+#     def unlink(self):
+#         for record in self:
+#             if self.env.user not in self.env['audit.trail'].exclude_users:
+#                 self.env['audit.trail'].sudo().create({
+#                     'name': 'Delete Record',
+#                     'model': self._name,
+#                     'record_id': record.id,
+#                     'user_id': self.env.user.id,
+#                     'action': 'unlink',
+#                     'description': self._description,
+#                     'record_name': self.name,
+#                     'changes': 'Record deleted',
+#                 })
+#
+#         return super(LeadsLogic, self).unlink()
 
 
 class PaymentRequest(models.Model):

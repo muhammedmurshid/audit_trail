@@ -60,6 +60,6 @@
             sequence="1"
             action="action_for_audit_trail"
             web_icon="audit_trail,static/description/icon.png"
-            groups="audit_trail.group_audit_trail_admin"
+
     />
 </odoo>
