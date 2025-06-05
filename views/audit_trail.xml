@@ -60,6 +60,6 @@
             sequence="1"
             action="action_for_audit_trail"
             web_icon="audit_trail,static/description/icon.png"
-            groups="logic_base_17.base_admin"
+            groups="openeducat_core.group_op_admin"
     />
 </odoo>
