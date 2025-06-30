@@ -421,6 +421,74 @@ class BaseBatches(models.Model):
         })
         return super(BaseBatches, self).unlink()
 
+class BaseStudents(models.Model):
+    _inherit = 'op.student'
+
+    @api.model
+    def create(self, vals):
+        print('create method')
+        record = super(BaseStudents, self).create(vals)
+        record_name = vals.get('name', '')
+        self.env['audit.trail'].sudo().create({
+            'name': 'Create Record',
+            'model': self._name,
+            'record_id': record.id,
+            'record_name': record_name,
+            'user_id': self.env.user.id,
+            'description': self._description,
+            'action': 'create',
+            'changes': str(vals),
+        })
+        return record
+
+    def write(self, vals):
+        for record in self:
+            # Capture old values before the write
+            old_vals = {
+                field: record[field]
+                for field in vals.keys()
+                if field in record._fields
+            }
+            print(old_vals, 'old vals')
+            result = super(BaseStudents, record).write(vals)
+
+            # Capture new values after the write
+            new_vals = {
+                field: record[field]
+                for field in vals.keys()
+                if field in record._fields
+            }
+            print(new_vals, 'new vals')
+
+            # Create audit trail for each record individually
+            self.env['audit.trail'].sudo().create({
+                'name': 'Write Record',
+                'model': record._name,
+                'record_id': record.id,
+                'user_id': self.env.user.id,
+                'action': 'write',
+                'record_name': record.name,
+                'old_value': old_vals,
+                'changed_value': new_vals,
+                'description': self._description,
+                'changes': f"Old: {old_vals}\nNew: {new_vals}",
+            })
+
+        return result
+
+    def unlink(self):
+        self.env['audit.trail'].sudo().create({
+            'name': 'Delete Record',
+            'model': self._name,
+            'record_id': self.id,
+            'user_id': self.env.user.id,
+            'action': 'unlink',
+            'record_name': self.name,
+            'description': self._description,
+            'changes': 'Record deleted',
+        })
+        return super(BaseStudents, self).unlink()
+
 class StudentDiscountReport(models.Model):
     _inherit = 'discount.request'
 
