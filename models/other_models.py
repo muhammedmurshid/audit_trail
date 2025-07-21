@@ -266,7 +266,7 @@ class StudentsRefund(models.Model):
                 'old_value': old_vals,
                 'changed_value': new_vals,
                 'description': self._description,
-                'record_name': record.name,
+                'record_name': record.student_name,
                 'changes': f"Old: {old_vals}\nNew: {new_vals}",
             })
 
