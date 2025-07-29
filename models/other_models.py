@@ -273,16 +273,17 @@ class StudentsRefund(models.Model):
         return result
 
     def unlink(self):
-        self.env['audit.trail'].sudo().create({
-            'name': 'Delete Record',
-            'model': self._name,
-            'record_id': self.id,
-            'user_id': self.env.user.id,
-            'action': 'unlink',
-            'description': self._description,
-            'record_name': self.student_name,
-            'changes': 'Record deleted',
-        })
+        for rec in self:
+            self.env['audit.trail'].sudo().create({
+                'name': 'Delete Record',
+                'model': rec._name,
+                'record_id': rec.id,
+                'user_id': self.env.user.id,
+                'action': 'unlink',
+                'description': rec._description,
+                'record_name': rec.student_name,
+                'changes': 'Record deleted',
+            })
         return super(StudentsRefund, self).unlink()
 
 
